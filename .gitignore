@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# Local test/debug artifacts from development (whole folder, matches
+# ha-addon-tfi-gtfs/ha-addon-leapcard-balance convention - never pushed)
+tests/
+*_debug.html
+*.json.local
+
+# Windows / editor junk
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# macOS junk (in case anyone else on the project uses it)
+.DS_Store
+
+# Secrets - just in case a local test .env ever gets created
+.env

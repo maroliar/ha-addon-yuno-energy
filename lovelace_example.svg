@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="380" height="386" viewBox="0 0 380 386" font-family="Roboto, 'Helvetica Neue', Arial, sans-serif">
+  <defs>
+    <filter id="cardShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="1" stdDeviation="1" flood-color="#000000" flood-opacity="0.15"/>
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.10"/>
+    </filter>
+  </defs>
+
+  <rect width="380" height="386" fill="none"/>
+
+  <!-- Card 1: markdown overview -->
+  <g filter="url(#cardShadow)">
+    <rect x="0" y="0" width="380" height="222" rx="12" fill="#ffffff"/>
+  </g>
+  <text x="20" y="34" font-size="16" font-weight="500" fill="#212121">Yuno Energy</text>
+
+  <text x="20" y="64" font-size="14" fill="#212121">Forecast</text>
+  <text x="360" y="64" font-size="14" font-weight="600" fill="#212121" text-anchor="end">€132.60</text>
+
+  <text x="20" y="90" font-size="14" fill="#212121">Prediction</text>
+  <text x="360" y="90" font-size="14" font-weight="600" fill="#212121" text-anchor="end">€134.33</text>
+
+  <text x="20" y="116" font-size="14" fill="#212121">Beat the bill</text>
+  <text x="360" y="116" font-size="14" font-weight="600" fill="#1e8a4c" text-anchor="end">−€1.72</text>
+
+  <line x1="20" y1="130" x2="360" y2="130" stroke="#e6e6e6" stroke-width="1"/>
+
+  <text x="20" y="156" font-size="14" fill="#212121">Próximo pagamento</text>
+  <text x="360" y="156" font-size="14" font-weight="600" fill="#212121" text-anchor="end">€155.22</text>
+
+  <text x="20" y="182" font-size="14" fill="#212121">Última fatura</text>
+  <text x="360" y="182" font-size="14" font-weight="600" fill="#212121" text-anchor="end">€189.17 · Paga</text>
+
+  <text x="20" y="204" font-size="12" fill="#727272">Atualizado às 00:03</text>
+
+  <!-- Card 2: history-graph -->
+  <g filter="url(#cardShadow)">
+    <rect x="0" y="238" width="380" height="148" rx="12" fill="#ffffff"/>
+  </g>
+  <text x="20" y="266" font-size="15" font-weight="500" fill="#212121">Uso por hora — último dia</text>
+
+  <g fill="#0e7fc9" fill-opacity="0.85">
+    <rect x="20"  y="342.4" width="12" height="22.6"/>
+    <rect x="35"  y="341.1" width="12" height="23.9"/>
+    <rect x="50"  y="346.5" width="12" height="18.5"/>
+    <rect x="65"  y="348.1" width="12" height="16.9"/>
+    <rect x="80"  y="348.0" width="12" height="17.0"/>
+    <rect x="95"  y="351.3" width="12" height="13.7"/>
+    <rect x="110" y="349.0" width="12" height="16.0"/>
+    <rect x="125" y="347.3" width="12" height="17.7"/>
+    <rect x="140" y="351.2" width="12" height="13.8"/>
+    <rect x="155" y="357.6" width="12" height="7.4"/>
+    <rect x="170" y="353.8" width="12" height="11.2"/>
+    <rect x="185" y="353.5" width="12" height="11.5"/>
+    <rect x="200" y="353.4" width="12" height="11.6"/>
+    <rect x="215" y="356.7" width="12" height="8.3"/>
+    <rect x="230" y="356.1" width="12" height="8.9"/>
+    <rect x="245" y="352.9" width="12" height="12.1"/>
+    <rect x="260" y="352.8" width="12" height="12.2"/>
+    <rect x="275" y="320.6" width="12" height="44.4"/>
+    <rect x="290" y="295"   width="12" height="70" fill="#b5651d"/>
+    <rect x="305" y="336.0" width="12" height="29.0"/>
+    <rect x="320" y="336.6" width="12" height="28.4"/>
+    <rect x="335" y="334.7" width="12" height="30.3"/>
+    <rect x="350" y="335.3" width="12" height="29.7"/>
+    <rect x="365" y="337.6" width="8" height="27.4"/>
+  </g>
+  <line x1="20" y1="365" x2="373" y2="365" stroke="#e6e6e6" stroke-width="1"/>
+  <text x="20" y="380" font-size="11" fill="#727272">00h</text>
+  <text x="190" y="380" font-size="11" fill="#727272" text-anchor="middle">pico 19h · 1.54 kWh</text>
+  <text x="373" y="380" font-size="11" fill="#727272" text-anchor="end">23h</text>
+</svg>

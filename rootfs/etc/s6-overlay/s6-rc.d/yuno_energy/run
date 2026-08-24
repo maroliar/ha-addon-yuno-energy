@@ -1,0 +1,27 @@
+#!/command/with-contenv bashio
+
+CONFIG_PATH=/data/options.json
+YUNO_EMAIL=$(jq --raw-output '.yuno_email' "${CONFIG_PATH}")
+YUNO_PASSWORD=$(jq --raw-output '.yuno_password' "${CONFIG_PATH}")
+YUNO_APP_CREDENTIAL=$(jq --raw-output '.yuno_app_credential' "${CONFIG_PATH}")
+
+if [ -z "${YUNO_EMAIL}" ] || [ "${YUNO_EMAIL}" = "null" ]; then
+    bashio::log.fatal "No yuno_email configured. Add your Yuno Energy login email in the addon configuration and restart."
+    bashio::app.stop
+    exit 0
+fi
+
+if [ -z "${YUNO_PASSWORD}" ] || [ "${YUNO_PASSWORD}" = "null" ]; then
+    bashio::log.fatal "No yuno_password configured. Add your Yuno Energy password in the addon configuration and restart."
+    bashio::app.stop
+    exit 0
+fi
+
+if [ -z "${YUNO_APP_CREDENTIAL}" ] || [ "${YUNO_APP_CREDENTIAL}" = "null" ]; then
+    bashio::log.fatal "No yuno_app_credential configured. See EXTRACTING_CREDENTIAL.md for how to get this value, add it in the addon configuration, and restart."
+    bashio::app.stop
+    exit 0
+fi
+
+bashio::log.info "Starting Yuno Energy..."
+exec python3 /app/main.py
