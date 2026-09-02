@@ -59,6 +59,7 @@ def sensor_messages(
     *,
     unit: str | None = None,
     device_class: str | None = None,
+    state_class: str | None = None,
     icon: str | None = None,
 ) -> list:
     discovery_payload = {
@@ -73,7 +74,8 @@ def sensor_messages(
         discovery_payload["unit_of_measurement"] = unit
     if device_class:
         discovery_payload["device_class"] = device_class
-        discovery_payload["state_class"] = "measurement"
+    if state_class:
+        discovery_payload["state_class"] = state_class
     if icon:
         discovery_payload["icon"] = icon
 
@@ -145,7 +147,7 @@ def build_messages(client: YunoClient) -> list:
             "standing_charge_euro": latest_day["dailyStandingChargeInEuro"] if latest_day else None,
             "hourly_kwh": (usage.get("hourlyUsageDetails") or [{}])[0].get("hourlyUsageInKwh"),
         },
-        unit="kWh", device_class="energy", icon="mdi:lightning-bolt",
+        unit="kWh", device_class="energy", state_class="total", icon="mdi:lightning-bolt",
     )
 
     annual_ve = vampire.get("annualData", {}).get("annualVEUsageInEuro")
