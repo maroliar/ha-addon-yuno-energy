@@ -94,19 +94,6 @@ def build_messages(client: YunoClient) -> list:
     vampire = client.get_vampire_energy()
     bills = client.get_bill_list()
 
-    # Yuno keeps the login itself working even after an account loses its
-    # active electricity plan (e.g. switching to another supplier) - it just
-    # starts returning an empty body (null) for account-specific endpoints
-    # instead of an error, so that has to be checked explicitly here.
-    missing = [name for name, value in (
-        ("billing", billing), ("usage", usage), ("vampire", vampire),
-    ) if value is None]
-    if missing:
-        raise YunoNoActiveAccountError(
-            f"Yuno's API accepted the login but returned no data for: {', '.join(missing)}. "
-            "This usually means the account no longer has an active electricity plan with Yuno."
-        )
-
     # Freshness fingerprint: Yuno only refreshes this data once a day (see
     # README's Known limitations). Returned alongside the messages so the
     # caller can diff it against the previous poll and flag exactly when
@@ -163,7 +150,7 @@ def build_messages(client: YunoClient) -> list:
         unit="kWh", device_class="energy", state_class="total", icon="mdi:lightning-bolt",
     )
 
-    annual_ve = vampire.get("annualData", {}).get("annualVEUsageInEuro")
+    annual_ve = (vampire.get("annualData", {}) or {}).get("annualVEUsageInEuro")
     daily_ve = vampire.get("dailyData", {}) or {}
     monthly_ve = vampire.get("monthlyData", {}) or {}
     messages += sensor_messages(

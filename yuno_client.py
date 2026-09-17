@@ -114,13 +114,28 @@ class YunoClient:
             timeout=REQUEST_TIMEOUT_SECONDS,
         )
 
+    def _parse_json(self, resp: requests.Response, context: str):
+        # Yuno keeps auth working after an account loses its active
+        # electricity plan (e.g. switching supplier) - it just starts
+        # returning HTTP 200 with an empty (null) body instead of an error,
+        # for login itself as well as account-specific endpoints. Every JSON
+        # response goes through here so that's only handled in one place.
+        data = resp.json()
+        if data is None:
+            raise YunoNoActiveAccountError(
+                f"Yuno's API accepted the request for '{context}' but returned an empty "
+                "response body. This usually means the account no longer has an active "
+                "electricity plan with Yuno."
+            )
+        return data
+
     def _get(self, path: str, **kwargs):
         signed_path = "/api/" + path.lstrip("/")
         headers = {**self.session.headers, "X-Http-signature": _sign(signed_path)}
         kwargs.setdefault("timeout", REQUEST_TIMEOUT_SECONDS)
         resp = self.session.get(self._url(path), headers=headers, **kwargs)
         resp.raise_for_status()
-        return resp.json()
+        return self._parse_json(resp, path)
 
     def login(self, is_persistent: bool = False) -> dict:
         resp = self._post(
@@ -136,7 +151,7 @@ class YunoClient:
                 f"Login failed: HTTP {resp.status_code} - {resp.text[:300]}"
             )
 
-        data = resp.json()
+        data = self._parse_json(resp, "login")
         self.session_token = data.get("sessionToken")
         self.user_info = data.get("appRegisteredUser")
 
