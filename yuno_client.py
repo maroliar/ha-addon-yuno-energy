@@ -75,6 +75,10 @@ class YunoLoginError(Exception):
     pass
 
 
+class YunoNoActiveAccountError(Exception):
+    pass
+
+
 class YunoClient:
     def __init__(self, email: str, password: str, app_credential: str):
         if not app_credential:

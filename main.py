@@ -19,7 +19,7 @@ from datetime import datetime
 
 from paho.mqtt.publish import multiple as mqtt_publish_multiple
 
-from yuno_client import YunoClient, YunoLoginError
+from yuno_client import YunoClient, YunoLoginError, YunoNoActiveAccountError
 
 OPTIONS_PATH = "/data/options.json"
 
@@ -93,6 +93,19 @@ def build_messages(client: YunoClient) -> list:
     usage = client.get_electricity_usage()
     vampire = client.get_vampire_energy()
     bills = client.get_bill_list()
+
+    # Yuno keeps the login itself working even after an account loses its
+    # active electricity plan (e.g. switching to another supplier) - it just
+    # starts returning an empty body (null) for account-specific endpoints
+    # instead of an error, so that has to be checked explicitly here.
+    missing = [name for name, value in (
+        ("billing", billing), ("usage", usage), ("vampire", vampire),
+    ) if value is None]
+    if missing:
+        raise YunoNoActiveAccountError(
+            f"Yuno's API accepted the login but returned no data for: {', '.join(missing)}. "
+            "This usually means the account no longer has an active electricity plan with Yuno."
+        )
 
     # Freshness fingerprint: Yuno only refreshes this data once a day (see
     # README's Known limitations). Returned alongside the messages so the
@@ -242,6 +255,8 @@ def main() -> None:
             last_freshness = fetch_and_publish(email, password, app_credential, mqtt_config, last_freshness)
         except YunoLoginError as e:
             log(f"LOGIN ERROR: {e}")
+        except YunoNoActiveAccountError as e:
+            log(f"NO ACTIVE ACCOUNT: {e}")
         except Exception as e:  # noqa: BLE001
             log(f"UNEXPECTED ERROR: {e}")
 

@@ -1,5 +1,5 @@
 name: "Yuno Energy"
-version: "0.1.1"
+version: "0.1.2"
 slug: "yuno_energy"
 description: "Track your Yuno Energy bill forecast, usage, and vampire energy"
 url: "https://github.com/maroliar/ha-addon-yuno-energy"
